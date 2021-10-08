@@ -21,6 +21,8 @@ def current_upgrade_candidates():
 
 # Save upgrade candidates to file
 def save_upgrade_candidates():
+    if not os.path.exists(last_upgrade_candidates_dir):
+        os.makedirs(last_upgrade_candidates_dir)
     with open(os.path.join(last_upgrade_candidates_dir, "last-upgrade-candidates.csv"), 'w', newline='') as file:
         csvwriter = csv.writer(file, delimiter=' ', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         csvwriter.writerows(current_upgrade_candidates())
@@ -32,7 +34,7 @@ def last_upgrade_candidates():
             csvreader = csv.reader(file, delimiter=' ', quotechar='|')
             return [tuple(row) for row in csvreader]
     except:
-        return
+        return []
 
 # Upgrade "stable packages" based on comparing the currently available upgrades to what was available 1 week ago. 
 if os.path.isfile(last_upgrade_candidates_dir) and os.path.getsize(last_upgrade_candidates_dir) > 0:
