@@ -37,7 +37,7 @@ def last_upgrade_candidates():
         return []
 
 # Upgrade "stable packages" based on comparing the currently available upgrades to what was available 1 week ago. 
-if os.path.isfile(last_upgrade_candidates_dir) and os.path.getsize(last_upgrade_candidates_dir) > 0:
+if os.path.isdir(last_upgrade_candidates_dir) and os.path.getsize(last_upgrade_candidates_dir) > 0:
     base.upgrade([elem[0] for elem in set(current_upgrade_candidates()).intersection(last_upgrade_candidates())])
     base.resolve()
     base.download_packages(base.transaction.install_set)
