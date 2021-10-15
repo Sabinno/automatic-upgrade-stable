@@ -17,7 +17,11 @@ base.fill_sack()
 
 # Gets current upgrade candidates
 def current_upgrade_candidates():
-    return [(pkg.name, pkg.version) for pkg in base.sack.query().upgrades()]
+    temp_base = dnf.Base()
+    temp_base.read_all_repos()
+    temp_base.fill_sack()
+    return [(pkg.name, pkg.version) for pkg in temp_base.sack.query().upgrades()]
+    temp_base.close()
 
 # Save upgrade candidates to file
 def save_upgrade_candidates():
